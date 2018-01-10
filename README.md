@@ -1,5 +1,4 @@
 # WebWrapp
-<<<<<<< HEAD
 
 Currently this is configured for Android only at the moment. iOS will be coming shortly, and maybe even OS X and Windows 10. And along with each of the platforms additional features for each.
 
@@ -32,6 +31,3 @@ To start, make sure you have **cordova**, **composer**, **npm**, and **gulp** in
     $ cordova run android
     $ cordova build android
     $ cordova build --release android
-=======
-Wrap your website inside a cross-platform app
->>>>>>> refs/remotes/origin/master
