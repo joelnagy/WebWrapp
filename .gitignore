@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # WebWrapp Gulp Generated files
 config.xml
 manifest.json
@@ -40,6 +41,8 @@ Thumbs.db
 # Packages
 node_modules
 
+=======
+>>>>>>> refs/remotes/origin/master
 # Built application files
 *.apk
 *.ap_
