@@ -23,11 +23,11 @@ To start, make sure you have **cordova**, **composer**, **npm**, and **gulp** in
 
 8. For production preparation run one of:
 
-    $ gulp --production
+    $ gulp --production  
     $ gulp --production --config APPNAME
 
 9. Finally like any Cordova Android build run one of:
 
-    $ cordova run android
-    $ cordova build android
+    $ cordova run android  
+    $ cordova build android  
     $ cordova build --release android
