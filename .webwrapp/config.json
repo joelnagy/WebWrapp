@@ -1,0 +1,15 @@
+{
+	"name": "joelnagy"
+	,"version": "0.1.2"
+	,"description": "Example app to my own site"
+	,"url": "https://joelnagy.com"
+	,"authorName": "Joel Nagy"
+	,"authorEmail": "hello@joelnagy.com"
+	,"logo": "default.png"
+	,"splashBackgroundColor": "#009EE7"
+	,"statusBarColor": "#009ee7"
+	,"backgroundColor": "#252525"
+	,"orientation": "portrait"
+	,"inAppBrowser": false
+	,"notifations": false
+}

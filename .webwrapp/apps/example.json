@@ -1,0 +1,15 @@
+{
+	"name": "WebWrapp Example"
+	,"version": "0.1.2"
+	,"description": "Example WebWrapp"
+	,"url": "https://www.example.com"
+	,"authorName": "Joel Nagy"
+	,"authorEmail": "hello@joelnagy.com"
+	,"logo": "apps/example.png"
+	,"splashBackgroundColor": "#7F6240"
+	,"statusBarColor": "#FF8A00"
+	,"backgroundColor": "#7F6240"
+	,"orientation": "portrait"
+	,"inAppBrowser": false
+	,"notifations": false
+}

@@ -1,0 +1,17 @@
+{
+  "start_url": "https://www.example.com/path",
+  "mjs_cordova": {
+    "plugin_mode": "client"
+  },
+  "mjs_api_access": [
+    { "match": "*://www.example.com/*", "platform": "android, browser", "access": "cordova" }
+  ],
+  "mjs_import_scripts": [
+    { "src": "js/index.js" }
+  ],
+  "mjs_access_whitelist": [
+    { "url": "*://www.example.com/*" }
+  ],
+  "theme_color": "#009EE7",
+  "background_color": "#252525"
+}
