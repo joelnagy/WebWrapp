@@ -7,6 +7,7 @@ index.css
 temp/
 .temp/
 res/README.md
+res/icon/android/
 res/icon/bada/
 res/icon/bada-wac/
 res/icon/blackberry/
@@ -15,6 +16,7 @@ res/icon/ios/
 res/icon/tizen/
 res/icon/webos/
 res/icon/windows-phone/
+res/screen/android/
 res/screen/bada/
 res/screen/bada-wac/
 res/screen/blackberry/
