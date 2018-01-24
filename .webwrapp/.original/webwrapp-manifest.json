@@ -12,6 +12,14 @@
   "mjs_access_whitelist": [
     { "url": "*://www.example.com/*" }
   ],
+  "mjs_offline_feature":
+    false
+  ,
   "theme_color": "#009EE7",
-  "background_color": "#252525"
+  "background_color": "#252525",
+  "permissions": [
+    "*://www.example.com/*",
+    "cookies",
+    "history"
+  ]
 }
