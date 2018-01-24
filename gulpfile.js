@@ -31,14 +31,19 @@ gulp.task( 'clean', function() {
 
 	var x = config.url;
 	config._protocol = x.replace( /(https?):\/\/.+/, '$1' );
-	config._domain = x.replace( /https?:\/\/([^/]+)\/?/, '$1' );
+	config._domain = x.replace( /https?:\/\/([^/]+)\/?.*/, '$1' );
+	config._domain_wildcard = config._domain.replace( /www\./, '*.' );
 	var y = explode( '.', config._domain );
 	config._domain_invert = implode( '.', y.reverse() );
 	config._path = x.replace( /https?:\/\/[^/]+\/(.+)?/, '$1' );
 	if ( config._path == x ) config._path = '';
 console.log( 'PROTOCOL: ' + config._protocol );
-console.log( 'DOMAIN: ' + config._domain );
+console.log( 'www.DOMAIN.com: ' + config._domain );
+console.log( '*.DOMAIN.com: ' + config._domain_wildcard );
+console.log( 'com.DOMAIN.www: ' + config._domain_invert );
 console.log( 'PATH: ' + config._path );
+
+	config.customJS = config.customJS || '*.nojsfileshere';
 
 	return gulp.src( [
         './temp'
@@ -78,6 +83,7 @@ gulp.task( 'cssmin', [ 'clean' ], function() {
 // MIN HTML
 gulp.task( 'htmlmin', [ 'clean' ], function( callback ) {
 	return gulp.src( './www/.original/webwrapp.html' )
+		.pipe( replace( /https:\/\/www\.example\.com/g, config._protocol + '://' + config._domain + '/' + config._path ) )
 		.pipe( htmlmin( {
 			collapseWhitespace: true
 			,removeComments: true
@@ -94,7 +100,21 @@ gulp.task( 'htmlmin', [ 'clean' ], function( callback ) {
 } );
 
 // MIN JS
-gulp.task( 'uglify-js', [ 'clean' ], function( callback ) {
+gulp.task( 'prep-js', [ 'clean' ], function( callback ) {
+	gulp.src( './.webwrapp/.original/webwrapp-config.js' )
+	// Reason for working with the value as a string rather than boolean is less error
+	.pipe( replace( /Config\.clearData\s*=\s*false\;/g, 'Config.clearData="' + config.clearData.toString().toLowerCase() + '";' ) ) // protocol first
+	.pipe( replace( /https:\/\/www\.example\.com/g, config._protocol + '://' + config._domain + '/' + config._path ) )
+	.pipe( rename( { basename: '_webwrapp' } ) ) // this will make sure this file is before the prime webwrapp.js file
+	.pipe( gulp.dest( './www/js/.original/.temp/' ) );
+
+	gulp.src( './.webwrapp/' + config.customJS )
+	.pipe( rename( { basename: 'webwrappZZZ' } ) ) // this will make sure this file is after the prime webwrapp.js file
+	.pipe( gulp.dest( './www/js/.original/.temp/' ) );
+
+	callback();
+} );
+gulp.task( 'uglify-js', [ 'prep-js' ], function( callback ) {
 	if ( argv.production !== undefined ) {
 		pump( [
             gulp.src( './www/js/.original/*.js' )
@@ -117,10 +137,11 @@ gulp.task( 'concat-js', [ 'uglify-js' ], function( callback ) {
 			.pipe( gulp.dest( "./www/js/" ) );
 	} else {
 		return gulp.src( "./www/js/.original/.temp/*.js" )
+			// Combine all into the cordova.js and place inside the www root -- then the injectview plugin will load both cordova and the webwrapp js in one!
 			.pipe( concat( 'index.js', {
 				newLine: ';'
 			} ) )
-			.pipe( gulp.dest( "./www/js/" ) );
+			.pipe( gulp.dest( "./www/js" ) );
 	}
 } );
 
@@ -172,6 +193,9 @@ gulp.task( 'logo-one', [ 'logo-zero' ],  function ( callback ) {
       return gmfile
 	.setFormat( 'png' ).noProfile()
 	.resize( 1, 1 )
+	.fill( config.splashBackgroundColor )
+	.drawRectangle( 0, 0, 1, 1 )
+	.flatten()
 	.extent( 1200, 1200 ).crop( 1200, 1200, 0, 0 )
       .background( config.splashBackgroundColor )
 	;
@@ -226,6 +250,8 @@ gulp.task( 'manifestjson', [ 'clean' ],  function ( callback ) {
 	.pipe( replace( /www\.example\.com/g, config._domain ) ) // then domain
 	.pipe( replace( /com\.example\.www/g, config._domain_invert ) ) // then domain inverted, webwrapp should alread be set
 
+	.pipe( replace( /\*\:\/\/www\./g, "*://*." ) ) // wildcard subdomains on wildcard protocols only
+
 	.pipe( replace( /NAME/g, config.name ) )
 
 	.pipe( rename( { basename: 'manifest' } ) )
@@ -238,11 +264,12 @@ gulp.task( 'configxml', [ 'clean' ],  function ( callback ) {
 	//for domain need to parse in protocol, domain, domain_invert, and path:
 	.pipe( replace( /hello@example.com/g, config.authorEmail ) )
 
+	.pipe( replace( /host\s+name\=\"www\.example\.com"\s+scheme\=\"https\"/g, 'host name="' + config._domain_wildcard + '" scheme="' + config._protocol + '"' ) )
+
 	.pipe( replace( /https:\/\/www.example.com\/path/g, config._protocol + '://' + config._domain + '/' + config._path ) )
 	.pipe( replace( /https:\/\/www.example.com\/\*/g, config._protocol + '://' + config._domain + '/*' ) )
 
 	.pipe( replace( /www.example.com/g, config._domain ) )
-	.pipe( replace( /scheme="https"/g, 'scheme="' + config._protocol + '"' ) )
 
 	.pipe( replace( /AUTHOR/g, config.authorName ) )
 	.pipe( replace( /DESCRIPTION/g, config.description ) )
@@ -250,8 +277,19 @@ gulp.task( 'configxml', [ 'clean' ],  function ( callback ) {
 	.pipe( replace( /com.example.www/g, config._domain_invert ) )
 	.pipe( replace( /\#STATUSBARBACKGROUNDCOLOR/g, config.statusBarColor ) )
 
+	.pipe( replace( /"WebWrapp 1\.0"/g, '"WebWrapp ' + config.version + '"' ) )
+
 	.pipe( rename( { basename: 'config' } ) )
 	.pipe( gulp.dest( './' ) );
+} );
+
+// UPDATE HOOKS
+gulp.task( 'hooks', [ 'clean' ],  function ( callback ) {
+	return gulp.src( './.webwrapp/.original/webwrapp-android_web_hook.html' )
+	.pipe( replace( /\/\/com.example.webwrapp\/https\/www.example.com/g, '//' + config._domain_invert + '.webwrapp/' + config._protocol + '/' + config._domain ) )
+
+	.pipe( rename( { basename: 'android_web_hook' } ) )
+	.pipe( gulp.dest( './ul_web_hooks/android/' ) );
 } );
 
 /*
@@ -373,10 +411,11 @@ gulp.task( 'default', [
     'clean'
     ,'cssmin'
     ,'htmlmin'
-    ,'uglify-js', 'concat-js'
+    ,'prep-js', 'uglify-js', 'concat-js'
     ,'logo-zero', 'logo-one', 'logo-two', 'logo-three'
 		,'manifestjson'
 		,'configxml'
+		,'hooks'
 	  ,'build-cordova'
 		,'final'
 	]
