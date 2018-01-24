@@ -6,10 +6,12 @@
 	,"authorName": "Joel Nagy"
 	,"authorEmail": "hello@joelnagy.com"
 	,"logo": "default.png"
+	,"customJS": "custom.js"
 	,"splashBackgroundColor": "#009EE7"
 	,"statusBarColor": "#009ee7"
 	,"backgroundColor": "#252525"
 	,"orientation": "portrait"
+	,"clearData": true
 	,"inAppBrowser": false
 	,"notifations": false
 }
