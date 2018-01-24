@@ -10,6 +10,7 @@
     <content src="https://www.example.com/path" />
     <preference name="StatusBarBackgroundColor" value="#STATUSBARBACKGROUNDCOLOR" />
     <preference name="ShowSplashScreenSpinner" value="false" />
+    <preference name="AppendUserAgent" value="WebWrapp 1.0" />
     <preference name="Orientation" value="portrait" />
     <access origin="*" />
     <access origin="*" />
