@@ -12,12 +12,15 @@
     "dependencies": {
         "cordova-android": "^6.1.2",
         "cordova-browser": "~4.1.0",
+        "cordova-plugin-cache-clear": "file://node_modules/cordova-plugin-cache-clear",
+        "cordova-plugin-engage-injectview": "git+https://github.com/gipsy-king/cordova-plugin-fastrde-injectview.git",
         "cordova-plugin-hostedwebapp": "^0.3.1",
         "cordova-plugin-network-information": "^2.0.1",
         "cordova-plugin-splashscreen": "^5.0.1",
         "cordova-plugin-statusbar": "^2.4.1",
         "cordova-plugin-themeablebrowser": "^0.2.17",
         "cordova-plugin-whitelist": "1",
+        "cordova-remove-cookies": "file://node_modules/cordova-remove-cookies",
         "cordova-universal-links-plugin": "^1.2.1",
         "gulp": "^3.9.1"
     },
@@ -29,7 +32,10 @@
             "cordova-plugin-themeablebrowser": {},
             "cordova-universal-links-plugin": {},
             "cordova-plugin-whitelist": {},
-            "cordova-plugin-splashscreen": {}
+            "cordova-plugin-splashscreen": {},
+            "cordova-plugin-cache-clear": {},
+            "com.bez4pieci.cookies": {},
+            "cordova-plugin-engage-injectview": {}
         },
         "platforms": [
             "android",
