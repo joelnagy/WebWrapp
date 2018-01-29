@@ -30,6 +30,7 @@ res/screen/windows-phone/
 # Addtional
 platforms/
 plugins/
+prepare/
 
 # OS-specific files
 .DS_Store
