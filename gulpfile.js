@@ -165,24 +165,28 @@ gulp.task( 'build-cordova', [ 'clean' ], function( callback ) { // make sure to 
 } );
 
 gulp.task( 'logo-zero', [ 'clean' ],  function ( callback ) {
-	return resize( 1196, 'webwrapp-temp', './temp' );
+	return resize( 1196, 'webwrapp-temp', false, './temp' );
 } );
 
 // MAKE ICONS AND SPLASH BG
 gulp.task( 'logo-one', [ 'logo-zero' ],  function ( callback ) {
+
+	// ANDROID`
   // Make all the icons -- then the splash screens
-	// x 192
-	resize( 192, 'icon-xxxhdpi', 'res/icon/android' );
-	// x 144
-	resize( 144, 'icon-xxhdpi', 'res/icon/android' );
-	// x 96
-	resize( 96, 'icon-xhdpi', 'res/icon/android' );
-	// x 72
-	resize( 72, 'icon-hdpi', 'res/icon/android' );
-	// x 48
-	resize( 48, 'icon-mdpi', 'res/icon/android' );
-	// x 36
-	resize( 36, 'icon-ldpi', 'res/icon/android' );
+	resize( 192, 'icon-xxxhdpi', true, 'res/icon/android' );
+	resize( 144, 'icon-xxhdpi', true, 'res/icon/android' );
+	resize( 96, 'icon-xhdpi', true, 'res/icon/android' );
+	resize( 72, 'icon-hdpi', true, 'res/icon/android' );
+	resize( 48, 'icon-mdpi', true, 'res/icon/android' );
+	resize( 36, 'icon-ldpi', true, 'res/icon/android' );
+
+	// OSX
+	resize( 512, 'icon-512x512', false, 'platforms/osx/' + config.name + '/Images.xcassets/AppIcon.appiconset' );
+	resize( 256, 'icon-256x256', false, 'platforms/osx/' + config.name + '/Images.xcassets/AppIcon.appiconset' );
+	resize( 128, 'icon-128x128', false, 'platforms/osx/' + config.name + '/Images.xcassets/AppIcon.appiconset' );
+	resize( 64, 'icon-64x64', false, 'platforms/osx/' + config.name + '/Images.xcassets/AppIcon.appiconset' );
+	resize( 32, 'icon-32x32', false, 'platforms/osx/' + config.name + '/Images.xcassets/AppIcon.appiconset' );
+	resize( 16, 'icon-16x16', false, 'platforms/osx/' + config.name + '/Images.xcassets/AppIcon.appiconset' );
 
 	///config.splashBackgroundColor = '#eeeeee';
 	///console.log( config.splashBackgroundColor );
@@ -219,7 +223,7 @@ gulp.task( 'logo-two', [ 'logo-one' ],  function ( callback ) {
 	    return gmfile
 		.noProfile()
 	    .background( 'transparent' )
-	    .draw( 'image Over 1,1 0,0 temp/webwrapp-temp-1196.png' )
+	    .draw( 'image Over 1,1 0,0 temp/webwrapp-temp.png' )
 		;
 	} ) )
 	.pipe( rename( { basename: 'temp' } ) )
@@ -295,11 +299,12 @@ gulp.task( 'hooks', [ 'clean' ],  function ( callback ) {
 /*
 	Helper functions
 */
-function resize ( size, prefix, dest, src ) {
+function resize ( size, prefix, appendSize, dest, src ) {
 	src = src || './.webwrapp/' + config.logo;
 	size = size || 192;
 	dest = dest || './.webwrapp/.original/.temp/';
 	prefix = prefix || 'icon';
+	appendSize = appendSize || false;
 
     return gulp.src( src )
     .pipe( gm( function ( gmfile ) {
@@ -308,7 +313,7 @@ function resize ( size, prefix, dest, src ) {
 		.extent( 1200, 1200 )
         .resize( size, size ).extent( size, size ).crop( size, size )
     } ) )
-	.pipe( rename( { basename: prefix + '-' + size } ) )
+	.pipe( rename( { basename: prefix + ( true === appendSize ? '-' + size : '' ) } ) )
     .pipe( gulp.dest( dest ) );
 }
 
