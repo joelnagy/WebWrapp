@@ -174,7 +174,11 @@ gulp.task( 'logo-zero', [ 'clean' ],  function ( callback ) {
 gulp.task( 'logo-one', [ 'logo-zero' ],  function ( callback ) {
 
 	// ANDROID
-  // Make all the icons -- then the splash screens
+	// Adaptive icon
+	gulp.src( "./.webwrapp/.original/ic_launcher.xml" )
+		.pipe( gulp.dest( "res/icon/android/" ) );
+  	resize( 512, 'ic_launcher_foreground', false, 'res/icon/android' );
+	// Make all the icons -- then the splash screens
 	resize( 192, 'icon-xxxhdpi', true, 'res/icon/android' );
 	resize( 144, 'icon-xxhdpi', true, 'res/icon/android' );
 	resize( 96, 'icon-xhdpi', true, 'res/icon/android' );
@@ -219,6 +223,9 @@ gulp.task( 'logo-one', [ 'logo-zero' ],  function ( callback ) {
 
 // ADD PATCH 9 TO BG
 gulp.task( 'logo-two', [ 'logo-one' ],  function ( callback ) {
+	// Android BG icon image
+	resize( 512, 'ic_launcher_background', false, 'res/icon/android', './temp/bg.png' );
+
 	// layer image on splash template
 	return gulp.src('./.webwrapp/.original/splash-1200.9.png')
 	.pipe( gm( function ( gmfile ) {
