@@ -251,6 +251,7 @@ gulp.task( 'logo-three', [ 'logo-one', 'logo-two' ],  function ( callback ) {
 gulp.task( 'manifestjson', [ 'clean' ],  function ( callback ) {
 	return gulp.src( './.webwrapp/.original/webwrapp-manifest.json' )
 	//for domain need to parse in protocol, domain, domain_invert, and path:
+	.pipe( replace( /amp\.example\.org/g, config.amp ) ) // amp domain
 	.pipe( replace( /https:/g, config._protocol + ':' ) ) // protocol first
 	.pipe( replace( /www\.example\.com\/path/g, 'www.example.com/' + config._path ) ) // path second
 	.pipe( replace( /www\.example\.com/g, config._domain ) ) // then domain
@@ -270,7 +271,7 @@ gulp.task( 'configxml', [ 'clean' ],  function ( callback ) {
 	//for domain need to parse in protocol, domain, domain_invert, and path:
 	.pipe( replace( /hello@example.com/g, config.authorEmail ) )
 
-	.pipe( replace( /host\s+name\=\"amp\.example\.com"\s+scheme\=\"https\"/g, 'host name="' + config.amp + '" scheme="' + config._protocol + '"' ) )
+	.pipe( replace( /host\s+name\=\"amp\.example\.org"\s+scheme\=\"https\"/g, 'host name="' + config.amp + '" scheme="' + config._protocol + '"' ) )
 	.pipe( replace( /host\s+name\=\"www\.example\.com"\s+scheme\=\"https\"/g, 'host name="' + config._domain_wildcard + '" scheme="' + config._protocol + '"' ) )
 
 	.pipe( replace( /https:\/\/www.example.com\/path/g, config._protocol + '://' + config._domain + '/' + config._path ) )

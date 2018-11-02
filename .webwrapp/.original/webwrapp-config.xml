@@ -14,6 +14,7 @@
     <preference name="Orientation" value="portrait" />
     <access origin="*" />
     <access origin="cdvfile://*" />
+    <allow-intent href="data:*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
     <allow-intent href="sms:*" />
@@ -46,7 +47,7 @@
     </platform>
     <universal-links>
         <host name="www.example.com" scheme="https" />
-        <host name="amp.example.com" scheme="https" />
+        <host name="amp.example.org" scheme="https" />
     </universal-links>
     <allow-navigation href="*" />
     <allow-navigation href="data:*" />

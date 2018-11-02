@@ -4,13 +4,15 @@
     "plugin_mode": "client"
   },
   "mjs_api_access": [
-    { "match": "*://www.example.com/*", "platform": "android, browser", "access": "cordova" }
+    { "match": "*://www.example.com/*", "platform": "android, browser", "access": "cordova" },
+    { "match": "*://amp.example.org/*", "platform": "android, browser", "access": "cordova" }
   ],
   "mjs_import_scripts": [
     { "src": "js/index.js" }
   ],
   "mjs_access_whitelist": [
-    { "url": "*://www.example.com/*" }
+    { "url": "*://www.example.com/*" },
+    { "url": "*://amp.example.org/*" }
   ],
   "mjs_offline_feature":
     false
@@ -19,6 +21,7 @@
   "background_color": "#252525",
   "permissions": [
     "*://www.example.com/*",
+    "*://amp.example.org/*",
     "cookies",
     "history"
   ]
