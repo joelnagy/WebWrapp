@@ -29,6 +29,8 @@ if ( argv.production !== undefined ) {
 // CLEAN UP ALL TEMPORARY FOLDERS
 gulp.task( 'clean', function() {
 
+	config.amp = config.amp.replace( /www-/, '*-' );
+
 	var x = config.url;
 	config._protocol = x.replace( /(https?):\/\/.+/, '$1' );
 	config._domain = x.replace( /https?:\/\/([^/]+)\/?.*/, '$1' );
@@ -171,7 +173,7 @@ gulp.task( 'logo-zero', [ 'clean' ],  function ( callback ) {
 // MAKE ICONS AND SPLASH BG
 gulp.task( 'logo-one', [ 'logo-zero' ],  function ( callback ) {
 
-	// ANDROID`
+	// ANDROID
   // Make all the icons -- then the splash screens
 	resize( 192, 'icon-xxxhdpi', true, 'res/icon/android' );
 	resize( 144, 'icon-xxhdpi', true, 'res/icon/android' );
@@ -268,6 +270,7 @@ gulp.task( 'configxml', [ 'clean' ],  function ( callback ) {
 	//for domain need to parse in protocol, domain, domain_invert, and path:
 	.pipe( replace( /hello@example.com/g, config.authorEmail ) )
 
+	.pipe( replace( /host\s+name\=\"amp\.example\.com"\s+scheme\=\"https\"/g, 'host name="' + config.amp + '" scheme="' + config._protocol + '"' ) )
 	.pipe( replace( /host\s+name\=\"www\.example\.com"\s+scheme\=\"https\"/g, 'host name="' + config._domain_wildcard + '" scheme="' + config._protocol + '"' ) )
 
 	.pipe( replace( /https:\/\/www.example.com\/path/g, config._protocol + '://' + config._domain + '/' + config._path ) )

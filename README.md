@@ -41,9 +41,19 @@ plugins/cordova-universal-links-plugin/hooks/lib/android/manifestWriter.js with 
 
 **OSX BUILD**
 
+NOTE: Building multiple OSX apps requires removing osx as a platform and re-adding then running gulp via step 4 OR 5:
+  $ cordova platform remove osx
+  $ cordova platform add osx
+
 1. Run composer for all required dependencies
 2. Edit **config.json** in **.original** folder with details of your app
 3. If you want to setup multiple apps create additional copies of config.json and place in **.original/apps** folder with a new name like example.json
+4. Open Proj in XCode
+
+  open platforms/osx/<APPNAME>.xcodeproj
+
+5. Check errors via the yellow warning icon and click Perform Changes for all - should only have to do this the first and not on repeat gulp, cordova run, or cordova build
+
 4. Run **gulp** to prepare dev app
 5. For additional apps you created in  the **apps** folder run:
 

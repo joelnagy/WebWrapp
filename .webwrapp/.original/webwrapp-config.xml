@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.example.www.webwrapp" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.example.www.amp.webwrapp" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>NAME</name>
     <description>
         DESCRIPTION
@@ -13,6 +13,8 @@
     <preference name="AppendUserAgent" value="WebWrapp 1.0" />
     <preference name="Orientation" value="portrait" />
     <access origin="*" />
+    <access origin="cdvfile://*" />
+    <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
@@ -44,7 +46,13 @@
     </platform>
     <universal-links>
         <host name="www.example.com" scheme="https" />
+        <host name="amp.example.com" scheme="https" />
     </universal-links>
+    <allow-navigation href="*" />
+    <allow-navigation href="data:*" />
+    <allow-navigation href="https://*/*" />
+    <allow-navigation hap-rule="yes" href="https://www.example.com/*" />
+    <allow-navigation hap-rule="yes" href="https://*.cdn.ampproject.org/*" />
     <plugin name="cordova-plugin-hostedwebapp" spec="^0.3.1" />
     <plugin name="cordova-plugin-network-information" spec="^2.0.1" />
     <plugin name="cordova-plugin-splashscreen" spec="^5.0.1" />
@@ -52,7 +60,7 @@
     <plugin name="cordova-plugin-themeablebrowser" spec="^0.2.17" />
     <plugin name="cordova-plugin-whitelist" spec="1" />
     <plugin name="cordova-universal-links-plugin" spec="^1.2.1" />
-    <allow-navigation hap-rule="yes" href="https://www.example.com/*" />
+    <plugin name="cordova-plugin-file" spec="^6.0.1" />
     <engine name="osx" spec="^4.0.1" />
     <engine name="android" spec="^7.0.0" />
     <engine name="browser" spec="^4.1.0" />
